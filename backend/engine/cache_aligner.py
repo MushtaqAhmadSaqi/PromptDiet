@@ -25,12 +25,12 @@ CACHE_VIOLATION_PATTERNS = [
     ),
     (
         "session_or_request_id",
-        re.compile(r"\b(?:session[_-]?id|req(?:uest)?[_-]?id|trace[_-]?id)[=:\s]+[\'\"]?([A-Za-z0-9_-]{8,})[\'\"]?", re.IGNORECASE),
+        re.compile(r"\b(?:session[\s_-]?id|req(?:uest)?[\s_-]?id|trace[\s_-]?id)[=:\s]+[\'\"]?([A-Za-z0-9_-]{8,})[\'\"]?", re.IGNORECASE),
         "Dynamic request or session ID in prefix destroys cache reuse. Relocate to suffix.",
     ),
     (
         "dynamic_clock_call",
-        re.compile(r"\b(?:datetime\.now\(\)|Date\.now\(\)|time\.time\(\)|new Date\(\))\b"),
+        re.compile(r"\b(?:datetime\.now\(\)|Date\.now\(\)|time\.time\(\)|new Date\(\))"),
         "Dynamic time evaluation in prefix generates non-deterministic prompt headers. Provide static instructions or relocate.",
     ),
 ]

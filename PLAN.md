@@ -14,85 +14,50 @@
 
 ---
 
-## Phase 1: Core Deterministic Python Engine & Unit Tests
+## Phase 1: Core Deterministic Python Engine & Unit Tests ✅
 
-### Sub-phase 1A: Log Deduplicator + JSON Crusher
+### Sub-phase 1A: Log Deduplicator + JSON Crusher ✅
 
-- [ ] Create `backend/` package structure (`__init__.py`, `requirements.txt`, `config.py`)
-- [ ] Implement `backend/engine/__init__.py` (pipeline orchestrator function)
-- [ ] Implement `backend/engine/log_deduplicator.py`
-  - [ ] Regex normalization (strip timestamps, hex addresses, PIDs, UUIDs)
-  - [ ] Line-signature hashing with `hashlib.md5`
-  - [ ] Sliding-window sequential dedup → `[… repeated N times]` markers
-  - [ ] Error-line heuristic bypass (`FAIL`, `ERROR`, `Exception`, `Traceback`, non-zero exit)
-  - [ ] `collections.deque(maxlen=k)` context buffer preceding error lines
-- [ ] Implement `backend/engine/json_crusher.py`
-  - [ ] Whitespace minification via `json.dumps(separators=(',',':'))`
-  - [ ] Configurable boilerplate key stripping (`$schema`, `examples`, `x-*`, nested `description`)
-  - [ ] Array object schema deduplication with `__repeated` annotation
-  - [ ] Post-compression structural validation via `json.loads()`
-
-**Verification:**
-```bash
-cd backend
-pip install -r requirements.txt
-python -c "from engine.log_deduplicator import deduplicate_log; print('log_deduplicator OK')"
-python -c "from engine.json_crusher import crush_json; print('json_crusher OK')"
-```
+- [x] Create `backend/` package structure (`__init__.py`, `requirements.txt`, `config.py`)
+- [x] Implement `backend/engine/__init__.py` (pipeline orchestrator function)
+- [x] Implement `backend/engine/log_deduplicator.py`
+  - [x] Regex normalization (strip timestamps, hex addresses, PIDs, UUIDs)
+  - [x] Line-signature hashing with `hashlib.md5`
+  - [x] Sliding-window sequential dedup → `[… repeated N times]` markers
+  - [x] Error-line heuristic bypass (`FAIL`, `ERROR`, `Exception`, `Traceback`, non-zero exit)
+  - [x] `collections.deque(maxlen=k)` context buffer preceding error lines
+- [x] Implement `backend/engine/json_crusher.py`
+  - [x] Whitespace minification via `json.dumps(separators=(',',':'))`
+  - [x] Configurable boilerplate key stripping (`$schema`, `examples`, `x-*`, nested `description`)
+  - [x] Array object schema deduplication with `__repeated` annotation
+  - [x] Post-compression structural validation via `json.loads()`
 
 ---
 
-### Sub-phase 1B: Cache Aligner + Tokenizer
+### Sub-phase 1B: Cache Aligner + Tokenizer ✅
 
-- [ ] Implement `backend/engine/cache_aligner.py`
-  - [ ] Configurable prefix window (20% of prompt or 500 tokens, whichever is smaller)
-  - [ ] Regex patterns: ISO timestamps, UUID v4, Unix epochs, random session IDs, `datetime.now()`
-  - [ ] Return list of `CacheViolation` dicts with `{line_number, column, matched_text, pattern_name, suggestion}`
-- [ ] Implement `backend/engine/tokenizer.py`
-  - [ ] `tiktoken` wrapper using `cl100k_base` encoding (GPT-4o compatible)
-  - [ ] Gemini token estimation (character-based heuristic: `len(text) / 4`)
-  - [ ] Cost estimation function (configurable price per 1M input tokens)
-
-**Verification:**
-```bash
-python -c "from engine.cache_aligner import audit_cache_prefix; print('cache_aligner OK')"
-python -c "from engine.tokenizer import count_tokens; print(count_tokens('Hello world'))"
-```
+- [x] Implement `backend/engine/cache_aligner.py`
+  - [x] Configurable prefix window (20% of prompt or 50 lines, whichever is smaller)
+  - [x] Regex patterns: ISO timestamps, UUID v4, Unix epochs, random session IDs, `datetime.now()`
+  - [x] Return list of `CacheViolation` dicts with `{line_number, column, matched_text, pattern_name, suggestion}`
+- [x] Implement `backend/engine/tokenizer.py`
+  - [x] `tiktoken` wrapper using `cl100k_base` encoding (GPT-4o compatible)
+  - [x] Gemini token estimation (character-based heuristic: `len(text) / 4`)
+  - [x] Cost estimation function (configurable price per 1M input tokens)
 
 ---
 
-### Sub-phase 1C: Pytest Unit Test Suite
+### Sub-phase 1C: Pytest Unit Test Suite ✅
 
-- [ ] Create `backend/tests/conftest.py` with shared fixtures:
-  - [ ] `sample_build_log` — 50+ lines with repeated INFO lines + buried Exception
-  - [ ] `sample_json_schema` — MCP tool array with 5 repeated object schemas
-  - [ ] `sample_verbose_prompt` — 200-word narrative system prompt
-- [ ] Write `backend/tests/test_log_deduplicator.py`
-  - [ ] Test: repeated INFO lines collapse to counter marker
-  - [ ] Test: Exception/Traceback lines are preserved with k-line context
-  - [ ] Test: timestamps and hex addresses are stripped before comparison
-  - [ ] Test: empty input returns empty output
-  - [ ] Test: single-line input returns unchanged
-- [ ] Write `backend/tests/test_json_crusher.py`
-  - [ ] Test: whitespace is removed, output is valid JSON
-  - [ ] Test: boilerplate keys are stripped
-  - [ ] Test: repeated array schemas collapse with `__repeated` marker
-  - [ ] Test: non-JSON input raises `ValueError`
-- [ ] Write `backend/tests/test_cache_aligner.py`
-  - [ ] Test: ISO timestamp in first line triggers violation
-  - [ ] Test: UUID in prefix triggers violation with correct line/column
-  - [ ] Test: clean prefix returns empty violations list
-- [ ] Write `backend/tests/test_tokenizer.py`
-  - [ ] Test: known string returns expected token count
-  - [ ] Test: cost estimation matches manual calculation
-  - [ ] Test: Gemini estimate is within 20% of tiktoken count
-
-**Verification:**
-```bash
-cd backend
-python -m pytest tests/ -v --tb=short
-# Expected: ALL tests pass (green), 0 failures
-```
+- [x] Create `backend/tests/conftest.py` with shared fixtures:
+  - [x] `sample_build_log` — 46 lines with repeated INFO lines + buried Exception & Traceback
+  - [x] `sample_mcp_json` — MCP tool array with 3 repeated object schemas
+  - [x] `sample_cache_prompt` — System prompt with volatile variables in prefix
+  - [x] `sample_clean_prompt` — Deterministic clean prompt
+- [x] Write `backend/tests/test_log_deduplicator.py` (7 tests, all passing)
+- [x] Write `backend/tests/test_json_crusher.py` (4 tests, all passing)
+- [x] Write `backend/tests/test_cache_aligner.py` (5 tests, all passing)
+- [x] Write `backend/tests/test_tokenizer.py` (5 tests, all passing)
 
 ---
 
