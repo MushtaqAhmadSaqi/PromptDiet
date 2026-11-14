@@ -62,7 +62,7 @@ def execute_compression_pipeline(
     # Stage 1: Log Deduplication
     if enable_log_dedup and resolved_type in ("log", "auto"):
         res = deduplicate_log(current_text, context_lines=log_context_lines)
-        if res.reduction_pct > 0 or res.compressed_lines < res.original_lines:
+        if res.text != current_text or res.reduction_pct > 0:
             current_text = res.text
             stages_applied.append("log_deduplicator")
 
