@@ -111,83 +111,57 @@
 
 ---
 
-## Phase 3: React Split-Pane Diff Workbench
+## Phase 3: React Split-Pane Diff Workbench ✅
 
-### Sub-phase 3A: Vite + React + Tailwind Scaffold + Layout
+### Sub-phase 3A: Vite + React + Tailwind Scaffold + Layout ✅
 
-- [ ] Initialize Vite project in `frontend/` with React template
-- [ ] Install and configure Tailwind CSS + PostCSS
-- [ ] Create `frontend/src/components/Layout.jsx` — app shell (header, footer, dark mode)
-- [ ] Create `frontend/src/components/MetricScorecard.jsx` — single metric card
-- [ ] Create `frontend/src/components/MetricsDashboard.jsx` — grid of 4 scorecards:
-  - [ ] Tokens Saved (absolute number)
-  - [ ] Reduction Percentage (%)
-  - [ ] Processing Latency (ms)
-  - [ ] Estimated Cost Saved (USD)
-- [ ] Create `frontend/src/components/StageToggles.jsx` — pipeline stage checkboxes
-- [ ] Create `frontend/src/utils/api.js` — fetch wrapper for backend API
-- [ ] Create `frontend/src/utils/formatters.js` — number/byte/dollar formatting
-
-**Verification:**
-```bash
-cd frontend
-npm install
-npm run dev
-# Open http://localhost:5173 — verify layout renders with placeholder scorecards
-```
+- [x] Initialize Vite project in `frontend/` with React template
+- [x] Install and configure Tailwind CSS + PostCSS
+- [x] Create `frontend/src/components/Layout.jsx` — app shell (header, footer, dark mode)
+- [x] Create `frontend/src/components/MetricScorecard.jsx` — single metric card
+- [x] Create `frontend/src/components/MetricsDashboard.jsx` — grid of 4 scorecards:
+  - [x] Tokens Saved (absolute number)
+  - [x] Reduction Percentage (%)
+  - [x] Processing Latency (ms)
+  - [x] Estimated Cost Saved (USD)
+- [x] Create `frontend/src/components/StageToggles.jsx` — pipeline stage checkboxes
+- [x] Create `frontend/src/utils/api.js` — fetch wrapper for backend API
+- [x] Create `frontend/src/utils/formatters.js` — number/byte/dollar formatting
 
 ---
 
-### Sub-phase 3B: Split-Pane Editor + Diff View + Debounce
+### Sub-phase 3B: Split-Pane Editor + Diff View + Debounce ✅
 
-- [ ] Create `frontend/src/hooks/useDebounce.js` — 300ms debounce hook
-- [ ] Create `frontend/src/hooks/useCompression.js` — manages API state (loading, error, result)
-- [ ] Create `frontend/src/components/SplitPaneEditor.jsx`
-  - [ ] Left pane: textarea for raw input
-  - [ ] Right pane: read-only display of compressed output
-  - [ ] Wired to `useDebounce` → `useCompression` → backend API
-- [ ] Create `frontend/src/components/DiffView.jsx` — color-coded inline diff
-  - [ ] Red highlights for removed lines/tokens
-  - [ ] Green highlights for compressed replacements
-- [ ] Create `frontend/src/components/CacheWarnings.jsx`
-  - [ ] Renders list of KV-cache violations with line numbers and suggestions
-  - [ ] Yellow/amber warning styling
-
-**Verification:**
-```bash
-# Start backend: cd backend && uvicorn main:app --port 8000
-# Start frontend: cd frontend && npm run dev
-# In browser: paste a sample build log in left pane
-# Verify: compressed output appears in right pane after 300ms, diff highlights render, metrics update
-```
+- [x] Create `frontend/src/hooks/useDebounce.js` — 300ms debounce hook
+- [x] Create `frontend/src/hooks/useCompression.js` — manages API state (loading, error, result)
+- [x] Create `frontend/src/components/SplitPaneEditor.jsx`
+  - [x] Left pane: textarea for raw input
+  - [x] Right pane: read-only display of compressed output
+  - [x] Wired to `useDebounce` → `useCompression` → backend API
+- [x] Create `frontend/src/components/DiffView.jsx` — color-coded inline diff
+  - [x] Red highlights for removed lines/tokens
+  - [x] Green highlights for compressed replacements
+- [x] Create `frontend/src/components/CacheWarnings.jsx`
+  - [x] Renders list of KV-cache violations with line numbers and suggestions
+  - [x] Yellow/amber warning styling
 
 ---
 
-### Sub-phase 3C: Template Manager + Gemini Rewrite Button
+### Sub-phase 3C: Template Manager + Gemini Rewrite Button ✅
 
-- [ ] Create `frontend/src/hooks/useLocalStorage.js` — read/write/sync to localStorage
-- [ ] Create `frontend/src/components/TemplateManager.jsx`
-  - [ ] Save current input as named template
-  - [ ] Load saved templates into editor
-  - [ ] Export all templates as JSON file
-  - [ ] Import templates from JSON file
-  - [ ] Sync with backend API when available, fallback to localStorage only
-- [ ] Add "Rewrite Prose with Gemini" action button to the UI
-  - [ ] Calls `POST /api/rewrite` on current editor content
-  - [ ] Shows loading spinner during API call
-  - [ ] Displays rewritten result in right pane with separate metrics
-  - [ ] Shows warning badge if Gemini was unavailable (fallback mode)
-- [ ] Wire up `App.jsx` to compose all components with proper state flow
-
-**Verification:**
-```bash
-# With both frontend and backend running:
-# 1. Type in editor → verify real-time compression
-# 2. Save a template → verify it appears in template list
-# 3. Reload page → verify template persists (localStorage)
-# 4. Click "Rewrite with Gemini" on a verbose prompt → verify rewritten output
-# 5. Export templates → verify JSON file downloads
-```
+- [x] Create `frontend/src/hooks/useLocalStorage.js` — read/write/sync to localStorage
+- [x] Create `frontend/src/components/TemplateManager.jsx`
+  - [x] Save current input as named template
+  - [x] Load saved templates into editor
+  - [x] Export all templates as JSON file
+  - [x] Import templates from JSON file
+  - [x] Sync with backend API when available, fallback to localStorage only
+- [x] Add "Rewrite Prose with Gemini" action button to the UI
+  - [x] Calls `POST /api/rewrite` on current editor content
+  - [x] Shows loading spinner during API call
+  - [x] Displays rewritten result in right pane with separate metrics
+  - [x] Shows warning badge if Gemini was unavailable (fallback mode)
+- [x] Wire up `App.jsx` to compose all components with proper state flow
 
 ---
 
