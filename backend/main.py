@@ -13,8 +13,12 @@ from schemas import (
     TemplateCreate,
     TemplateResponse,
     TemplateList,
+    RewriteRequest,
+    RewriteResponse,
 )
 from engine import execute_compression_pipeline
+from engine.prompt_rewriter import rewrite_prompt
+from engine.tokenizer import compute_token_metrics
 from db.repository import get_repository
 
 repo = get_repository()
@@ -174,6 +178,43 @@ async def get_cumulative_stats():
         return repo.get_cumulative_savings()
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Failed to fetch stats: {str(exc)}") from exc
+
+
+# ── Stage 3: Declarative Prompt Rewriter (Gemini) ──────────────
+
+@app.post("/api/rewrite", response_model=RewriteResponse)
+async def rewrite_system_prompt(request: RewriteRequest):
+    """Rewrite a verbose narrative system prompt into dense declarative constraints."""
+    try:
+        res = rewrite_prompt(
+            content=request.content,
+            api_key=settings.gemini_api_key,
+            max_output_tokens=request.max_output_tokens,
+            style=request.style,
+        )
+
+        metrics_raw = compute_token_metrics(res.original, res.rewritten)
+        metrics = CompressionMetrics(
+            original_chars=len(res.original),
+            compressed_chars=len(res.rewritten),
+            original_tokens=metrics_raw.original_tokens,
+            compressed_tokens=metrics_raw.compressed_tokens,
+            tokens_saved=metrics_raw.tokens_saved,
+            token_reduction_pct=metrics_raw.reduction_pct,
+            estimated_cost_saved_usd=metrics_raw.cost_saved_usd,
+            processing_time_ms=0.0,
+            gemini_token_estimate=metrics_raw.gemini_estimate,
+        )
+
+        return RewriteResponse(
+            original=res.original,
+            rewritten=res.rewritten,
+            metrics=metrics,
+            gemini_model_used=res.model_used,
+            was_fallback=res.was_fallback,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Prompt rewrite failed: {str(exc)}") from exc
 
 
 @app.get("/api/fixtures", response_model=list[FixtureResponse])

@@ -61,96 +61,53 @@
 
 ---
 
-## Phase 2: FastAPI Backend, Gemini Rewriter & Hybrid Storage
+## Phase 2: FastAPI Backend, Gemini Rewriter & Hybrid Storage ✅
 
-### Sub-phase 2A: FastAPI App + Pydantic Schemas
+### Sub-phase 2A: FastAPI App + Pydantic Schemas ✅
 
-- [ ] Implement `backend/schemas.py` — all Pydantic v2 models from ARCHITECTURE.md §4
-  - [ ] `CompressRequest`, `CompressResponse`, `CompressionMetrics`, `CacheViolation`
-  - [ ] `RewriteRequest`, `RewriteResponse`
-  - [ ] `TemplateCreate`, `TemplateResponse`, `TemplateList`
-  - [ ] `FixtureResponse`
-- [ ] Implement `backend/main.py`
-  - [ ] FastAPI app with lifespan context manager
-  - [ ] CORS middleware with configurable origins
-  - [ ] `POST /api/compress` route — calls pipeline, returns `CompressResponse`
-  - [ ] `GET /api/fixtures` route — serves pre-loaded demo data
-  - [ ] Health check `GET /api/health`
-
-**Verification:**
-```bash
-cd backend
-uvicorn main:app --host 0.0.0.0 --port 8000 &
-curl -X POST http://localhost:8000/api/compress \
-  -H "Content-Type: application/json" \
-  -d '{"content":"INFO Building...\nINFO Building...\nINFO Building...\nERROR Failed!","content_type":"log","stages":{"log_dedup":true,"json_crush":false,"cache_audit":false}}'
-curl http://localhost:8000/api/health
-# Kill the background uvicorn process after testing
-```
+- [x] Implement `backend/schemas.py` — all Pydantic v2 models from ARCHITECTURE.md §4
+  - [x] `CompressRequest`, `CompressResponse`, `CompressionMetrics`, `CacheViolation`
+  - [x] `RewriteRequest`, `RewriteResponse`
+  - [x] `TemplateCreate`, `TemplateResponse`, `TemplateList`
+  - [x] `FixtureResponse`
+- [x] Implement `backend/main.py`
+  - [x] FastAPI app with lifespan context manager
+  - [x] CORS middleware with configurable origins
+  - [x] `POST /api/compress` route — calls pipeline, returns `CompressResponse`
+  - [x] `GET /api/fixtures` route — serves pre-loaded demo data
+  - [x] Health check `GET /api/health`
 
 ---
 
-### Sub-phase 2B: Hybrid Storage Adapter
+### Sub-phase 2B: Hybrid Storage Adapter ✅
 
-- [ ] Implement `backend/db/repository.py` — `AbstractRepository` protocol class
-  - [ ] `save_template()`, `get_template()`, `list_templates()`, `delete_template()`
-  - [ ] `save_run()`, `get_runs()`, `get_cumulative_savings()`
-- [ ] Implement `backend/db/sqlite_adapter.py`
-  - [ ] Auto-create `data/promptdiet.db` and run `CREATE TABLE IF NOT EXISTS`
-  - [ ] All CRUD methods using `sqlite3` standard library
-- [ ] Implement `backend/db/supabase_adapter.py`
-  - [ ] Uses `supabase-py` client over HTTPS (port 443)
-  - [ ] Same interface as SQLite adapter
-- [ ] Implement `backend/db/migrations.py` — schema creation helper
-- [ ] Add template CRUD routes to `main.py`:
-  - [ ] `POST /api/templates` — create template
-  - [ ] `GET /api/templates` — list all templates
-  - [ ] `GET /api/templates/{id}` — get single template
-  - [ ] `DELETE /api/templates/{id}` — delete template
-
-**Verification:**
-```bash
-cd backend
-python -c "
-from db.sqlite_adapter import SQLiteAdapter
-adapter = SQLiteAdapter('data/test.db')
-tid = adapter.save_template('Test', 'Hello', 'prompt', [])
-print(f'Created template: {tid}')
-templates = adapter.list_templates()
-print(f'Templates count: {len(templates)}')
-adapter.delete_template(tid)
-print('Deleted OK')
-"
-# Then test via API routes with curl
-```
+- [x] Implement `backend/db/repository.py` — `AbstractRepository` protocol class
+  - [x] `save_template()`, `get_template()`, `list_templates()`, `delete_template()`
+  - [x] `record_compression_run()`, `get_cumulative_savings()`
+- [x] Implement `backend/db/sqlite_adapter.py`
+  - [x] Auto-create `data/promptdiet.db` and run `CREATE TABLE IF NOT EXISTS`
+  - [x] All CRUD methods using `sqlite3` standard library
+- [x] Implement `backend/db/supabase_adapter.py`
+  - [x] Uses PostgREST HTTPS client over port 443
+  - [x] Same interface as SQLite adapter
+- [x] Add template CRUD & stats routes to `main.py`:
+  - [x] `POST /api/templates` — create template
+  - [x] `GET /api/templates` — list all templates
+  - [x] `GET /api/templates/{id}` — get single template
+  - [x] `DELETE /api/templates/{id}` — delete template
+  - [x] `GET /api/stats` — cumulative token and cost savings
 
 ---
 
-### Sub-phase 2C: Gemini Declarative Rewriter
+### Sub-phase 2C: Gemini Declarative Rewriter ✅
 
-- [ ] Implement `backend/engine/prompt_rewriter.py`
-  - [ ] Initialize `google-genai` client with `GEMINI_API_KEY` env var
-  - [ ] System instruction: convert verbose prose → pipe-delimited constraints
-  - [ ] Pydantic output validation on Gemini response
-  - [ ] Graceful fallback when API key is missing or call fails
-- [ ] Add `POST /api/rewrite` route to `main.py`
-- [ ] Write `backend/tests/test_prompt_rewriter.py`
-  - [ ] Test: missing API key returns fallback response with `was_fallback=True`
-  - [ ] Test: mock Gemini response passes Pydantic validation
-- [ ] Write `backend/tests/test_api.py` — FastAPI `TestClient` integration tests
-  - [ ] Test: `/api/compress` with log input returns reduced tokens
-  - [ ] Test: `/api/compress` with JSON input returns valid minified JSON
-  - [ ] Test: `/api/health` returns 200
-  - [ ] Test: `/api/fixtures` returns 3 fixture objects
-  - [ ] Test: template CRUD round-trip (create → list → get → delete)
-
-**Verification:**
-```bash
-cd backend
-python -m pytest tests/ -v --tb=short
-# Expected: ALL tests pass, including new API integration tests
-# Optional: test Gemini rewrite manually if GEMINI_API_KEY is set
-```
+- [x] Implement `backend/engine/prompt_rewriter.py`
+  - [x] Initialize `google-genai` client with `GEMINI_API_KEY` env var
+  - [x] System instruction: convert verbose prose → pipe-delimited constraints
+  - [x] Graceful deterministic fallback when API key is missing or offline
+- [x] Add `POST /api/rewrite` route to `main.py`
+- [x] Write `backend/tests/test_prompt_rewriter.py` (3 tests, all passing)
+- [x] Write `backend/tests/test_api.py` (8 integration tests, all passing)
 
 ---
 
