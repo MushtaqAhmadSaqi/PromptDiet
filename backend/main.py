@@ -220,67 +220,48 @@ async def rewrite_system_prompt(request: RewriteRequest):
 @app.get("/api/fixtures", response_model=list[FixtureResponse])
 async def list_demo_fixtures():
     """Retrieve pre-loaded demo fixtures for one-click testing in the workbench."""
+    import os
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    fixtures_dir = os.path.join(base_dir, "fixtures")
+
+    log_file = os.path.join(fixtures_dir, "build_log_400_lines.txt")
+    json_file = os.path.join(fixtures_dir, "mcp_schema_50_tools.json")
+    prompt_file = os.path.join(fixtures_dir, "system_prompt_800_words.txt")
+
+    log_content = ""
+    json_content = ""
+    prompt_content = ""
+
+    if os.path.exists(log_file):
+        with open(log_file, "r", encoding="utf-8") as f:
+            log_content = f.read()
+    if os.path.exists(json_file):
+        with open(json_file, "r", encoding="utf-8") as f:
+            json_content = f.read()
+    if os.path.exists(prompt_file):
+        with open(prompt_file, "r", encoding="utf-8") as f:
+            prompt_content = f.read()
+
     return [
         FixtureResponse(
             id="build-log",
             name="Webpack & Jest Build Log (400 Lines)",
-            description="Compacts 400+ lines of repetitive compilation logs into 4 lines while isolating buried stack traces.",
-            content="""2026-11-14 10:00:01 INFO [webpack] compiling client bundle chunk [0x7f01]...
-2026-11-14 10:00:02 INFO [webpack] compiling client bundle chunk [0x7f02]...
-2026-11-14 10:00:03 INFO [webpack] compiling client bundle chunk [0x7f03]...
-2026-11-14 10:00:04 INFO [webpack] compiling client bundle chunk [0x7f04]...
-2026-11-14 10:00:05 INFO [webpack] compiling client bundle chunk [0x7f05]...
-2026-11-14 10:00:06 INFO [webpack] compiling client bundle chunk [0x7f06]...
-2026-11-14 10:00:07 INFO [webpack] compiling client bundle chunk [0x7f07]...
-2026-11-14 10:00:08 INFO [webpack] compiling client bundle chunk [0x7f08]...
-2026-11-14 10:00:09 INFO [webpack] compiling client bundle chunk [0x7f09]...
-2026-11-14 10:00:10 INFO [webpack] compiling client bundle chunk [0x7f10]...
-2026-11-14 10:00:11 INFO [webpack] compiling client bundle chunk [0x7f11]...
-2026-11-14 10:00:12 INFO [webpack] compiling client bundle chunk [0x7f12]...
-2026-11-14 10:00:13 INFO [webpack] compiling client bundle chunk [0x7f13]...
-2026-11-14 10:00:14 INFO Loading Postgres DB migrations...
-2026-11-14 10:00:15 INFO Establishing connection pool to db.internal:5432...
-2026-11-14 10:00:16 ERROR Traceback (most recent call last):
-2026-11-14 10:00:17 ERROR   File "db/connection.py", line 42, in get_pool
-2026-11-14 10:00:18 Exception: ConnectionRefusedError: Host unreachable: db.internal:5432
-2026-11-14 10:00:19 npm ERR! command failed with exit code 1""",
+            description="Compacts 400+ lines of repetitive compilation logs into ~13 lines (96%+ reduction) while isolating buried stack traces.",
+            content=log_content or "INFO compiling...\nINFO compiling...\nERROR Build failed!",
             content_type="log",
         ),
         FixtureResponse(
             id="mcp-schema",
-            name="MCP Tool Schema (Redundant Arrays)",
+            name="MCP Tool Schema (50 Tools)",
             description="Minifies whitespace, removes schema boilerplate keys ($schema, examples), and collapses duplicate array objects.",
-            content="""{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "x-mcp-version": "2026.1",
-  "tools": [
-    {
-      "name": "search_codebase",
-      "description": "Search code repository using semantic embeddings",
-      "examples": ["search_codebase(query='auth router')"],
-      "parameters": {"type": "object", "properties": {"query": {"type": "string"}}}
-    },
-    {
-      "name": "search_codebase",
-      "description": "Search code repository using semantic embeddings",
-      "examples": ["search_codebase(query='auth router')"],
-      "parameters": {"type": "object", "properties": {"query": {"type": "string"}}}
-    }
-  ]
-}""",
+            content=json_content or '{"tools": []}',
             content_type="json",
         ),
         FixtureResponse(
             id="cache-busting-prompt",
             name="System Prompt with Cache-Busting Prefix",
             description="Audits prompt prefix for volatile variables (UUID, dynamic timestamp) that destroy LLM KV-cache reuse.",
-            content="""System Prompt: Senior Full-Stack Engineering Assistant
-Generated: 2026-11-14T23:41:00Z
-Session ID: 9f8e7d6c-5b4a-3210-fedc-ba9876543210
-User Time: datetime.now()
-
-Instructions:
-You are an expert coding assistant. When answering questions, always write clean, production-grade code with TypeScript types. Keep explanations concise and focused on architecture and performance.""",
+            content=prompt_content or "System Prompt\nSession: 123e4567\nInstructions: code",
             content_type="prompt",
         ),
     ]

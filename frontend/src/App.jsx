@@ -4,6 +4,7 @@ import MetricsDashboard from './components/MetricsDashboard';
 import StageToggles from './components/StageToggles';
 import SplitPaneEditor from './components/SplitPaneEditor';
 import TemplateManager from './components/TemplateManager';
+import DemoSwitcher from './components/DemoSwitcher';
 import { useCompression } from './hooks/useCompression';
 import { rewritePayload, fetchStats } from './utils/api';
 import { Sparkles, Bookmark, Loader2, AlertCircle } from 'lucide-react';
@@ -140,6 +141,14 @@ export default function App() {
           setStages={setStages}
           contentType={contentType}
           setContentType={setContentType}
+        />
+
+        {/* 1-Click Demo Fixtures Switcher */}
+        <DemoSwitcher
+          onSelectFixture={(fixture) => {
+            setContent(fixture.content);
+            setContentType(fixture.content_type);
+          }}
         />
 
         {/* Telemetry Dashboard */}

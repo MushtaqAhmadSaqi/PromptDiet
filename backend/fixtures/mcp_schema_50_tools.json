@@ -1,0 +1,1309 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "x-schema-version": "2026.1.0",
+  "x-docs-url": "https://modelcontextprotocol.io/specification",
+  "title": "Agentic Coding MCP Tool Suite",
+  "description": "50 Model Context Protocol tool specifications for autonomous developer agents",
+  "tools": [
+    {
+      "name": "read_file",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file(path='example_value_0')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file(path='example_value_1')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file(path='example_value_2')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command(command='example_value_3')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web(query='example_value_4')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_6",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_6(path='example_value_5')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_7",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_7(path='example_value_6')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_8",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_8(path='example_value_7')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_9",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_9(command='example_value_8')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_10",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_10(query='example_value_9')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_11",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_11(path='example_value_10')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_12",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_12(path='example_value_11')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_13",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_13(path='example_value_12')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_14",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_14(command='example_value_13')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_15",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_15(query='example_value_14')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_16",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_16(path='example_value_15')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_17",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_17(path='example_value_16')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_18",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_18(path='example_value_17')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_19",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_19(command='example_value_18')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_20",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_20(query='example_value_19')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_21",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_21(path='example_value_20')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_22",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_22(path='example_value_21')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_23",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_23(path='example_value_22')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_24",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_24(command='example_value_23')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_25",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_25(query='example_value_24')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_26",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_26(path='example_value_25')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_27",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_27(path='example_value_26')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_28",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_28(path='example_value_27')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_29",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_29(command='example_value_28')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_30",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_30(query='example_value_29')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_31",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_31(path='example_value_30')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_32",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_32(path='example_value_31')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_33",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_33(path='example_value_32')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_34",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_34(command='example_value_33')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_35",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_35(query='example_value_34')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_36",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_36(path='example_value_35')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_37",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_37(path='example_value_36')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_38",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_38(path='example_value_37')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_39",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_39(command='example_value_38')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_40",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_40(query='example_value_39')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_41",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_41(path='example_value_40')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_42",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_42(path='example_value_41')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_43",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_43(path='example_value_42')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_44",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_44(command='example_value_43')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_45",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_45(query='example_value_44')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "read_file_46",
+      "description": "Read file contents from local disk workspace",
+      "examples": [
+        "read_file_46(path='example_value_45')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "write_file_47",
+      "description": "Create or overwrite file contents on local disk",
+      "examples": [
+        "write_file_47(path='example_value_46')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "edit_file_48",
+      "description": "Perform targeted string replacement in file",
+      "examples": [
+        "edit_file_48(path='example_value_47')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target path input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "run_command_49",
+      "description": "Execute bash or powershell terminal shell command",
+      "examples": [
+        "run_command_49(command='example_value_48')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Target command input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "command"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    },
+    {
+      "name": "search_web_50",
+      "description": "Perform live web search for documentation and error codes",
+      "examples": [
+        "search_web_50(query='example_value_49')"
+      ],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Target query input"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "description": "Command execution timeout",
+            "default": 30
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "x-vendor": "mcp-agentic-standard",
+      "x-internal-flag": true
+    }
+  ]
+}
