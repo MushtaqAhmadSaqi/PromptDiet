@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import time
 from typing import AsyncGenerator
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -27,22 +28,26 @@ repo = get_repository()
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Lifespan context manager for startup and shutdown hooks."""
-    # Future DB migrations or connection pool initialization
     yield
 
 
 app = FastAPI(
     title="PromptDiet API",
     description="Local-First System Prompt, MCP Tool-Schema & Build-Log Token Compressor",
-    version="0.1.0",
+    version="0.2.0",
     lifespan=lifespan,
 )
 
-# CORS Middleware
+# CORS Middleware (spec-compliant: never pair wildcard origins with allow_credentials=True)
+_cors_origins = settings.cors_origins if settings.cors_origins else [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+_use_wildcard = settings.environment == "local" and "*" in _cors_origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if settings.environment == "local" else settings.cors_origins,
-    allow_credentials=True,
+    allow_origins=["*"] if _use_wildcard else _cors_origins,
+    allow_credentials=not _use_wildcard,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -54,7 +59,7 @@ async def health_check():
     return {
         "status": "healthy",
         "service": "PromptDiet",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "environment": settings.environment,
     }
 
@@ -186,12 +191,14 @@ async def get_cumulative_stats():
 async def rewrite_system_prompt(request: RewriteRequest):
     """Rewrite a verbose narrative system prompt into dense declarative constraints."""
     try:
+        start_time = time.perf_counter()
         res = rewrite_prompt(
             content=request.content,
             api_key=settings.gemini_api_key,
             max_output_tokens=request.max_output_tokens,
             style=request.style,
         )
+        latency_ms = round((time.perf_counter() - start_time) * 1000.0, 2)
 
         metrics_raw = compute_token_metrics(res.original, res.rewritten)
         metrics = CompressionMetrics(
@@ -202,9 +209,23 @@ async def rewrite_system_prompt(request: RewriteRequest):
             tokens_saved=metrics_raw.tokens_saved,
             token_reduction_pct=metrics_raw.reduction_pct,
             estimated_cost_saved_usd=metrics_raw.cost_saved_usd,
-            processing_time_ms=0.0,
+            processing_time_ms=latency_ms,
             gemini_token_estimate=metrics_raw.gemini_estimate,
         )
+
+        try:
+            repo.record_compression_run(
+                content_type="prompt",
+                original_tokens=metrics_raw.original_tokens,
+                compressed_tokens=metrics_raw.compressed_tokens,
+                token_reduction_pct=metrics_raw.reduction_pct,
+                estimated_cost_saved=metrics_raw.cost_saved_usd,
+                processing_time_ms=latency_ms,
+                stages_applied=[f"gemini_rewriter ({res.model_used})"],
+                cache_violations_count=0,
+            )
+        except Exception:
+            pass
 
         return RewriteResponse(
             original=res.original,
@@ -265,4 +286,3 @@ async def list_demo_fixtures():
             content_type="prompt",
         ),
     ]
-

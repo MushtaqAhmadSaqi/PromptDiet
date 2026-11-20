@@ -1,17 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
 
 export function useAnimatedNumber(targetValue, duration = 400) {
-  const [displayValue, setDisplayValue] = useState(targetValue || 0);
-  const startValueRef = useRef(targetValue || 0);
+  const numericTarget = Number(targetValue) || 0;
+  const [displayValue, setDisplayValue] = useState(numericTarget);
+  const currentValueRef = useRef(numericTarget);
   const startTimeRef = useRef(null);
   const animationFrameRef = useRef(null);
 
   useEffect(() => {
-    const start = displayValue;
-    const end = Number(targetValue) || 0;
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion || duration <= 0) {
+      currentValueRef.current = numericTarget;
+      setDisplayValue(numericTarget);
+      return;
+    }
+
+    const start = currentValueRef.current;
+    const end = numericTarget;
     if (start === end) return;
 
-    startValueRef.current = start;
     startTimeRef.current = performance.now();
 
     const updateNumber = (now) => {
@@ -21,11 +32,13 @@ export function useAnimatedNumber(targetValue, duration = 400) {
       const ease = 1 - Math.pow(1 - progress, 3);
       const current = start + (end - start) * ease;
 
+      currentValueRef.current = current;
       setDisplayValue(current);
 
       if (progress < 1) {
         animationFrameRef.current = requestAnimationFrame(updateNumber);
       } else {
+        currentValueRef.current = end;
         setDisplayValue(end);
       }
     };
@@ -37,7 +50,7 @@ export function useAnimatedNumber(targetValue, duration = 400) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [targetValue, duration]);
+  }, [numericTarget, duration]);
 
   return displayValue;
 }

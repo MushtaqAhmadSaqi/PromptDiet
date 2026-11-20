@@ -1,0 +1,15 @@
+{
+  "name": "promptdiet-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render src/index.ts PromptDietShowcase out/promptdiet-promo.mp4 --codec h264 --crf 17"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.240",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.240"
+  }
+}

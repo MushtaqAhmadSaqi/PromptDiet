@@ -1,6 +1,6 @@
 import React from 'react';
-import { CheckCircle2, ShieldCheck, Zap, Cpu, ArrowRight, Layers, FileCode, Clock } from 'lucide-react';
-import { formatPercent, formatTokens } from '../utils/formatters';
+import { CheckCircle2, ShieldCheck, Zap, ArrowRight, Layers } from 'lucide-react';
+import { formatPercent } from '../utils/formatters';
 
 export default function StageBreakdownView({ compressedData, originalContent }) {
   const metrics = compressedData?.metrics;
@@ -18,7 +18,7 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
       description: 'Collapses sequential identical lines with repeat counts and preserves core stack traces/exceptions.',
       applied: stagesApplied.some((s) => s.toLowerCase().includes('log') || s.toLowerCase().includes('dedup')),
       impact: linesPruned > 0 ? `${linesPruned} redundant lines pruned` : 'Inspected',
-      badge: 'Deterministic $O(N)$',
+      badge: 'Deterministic O(N)',
     },
     {
       id: 'json_crush',
@@ -33,7 +33,7 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
       name: 'Stage 3: Gemini Dense Rewriter',
       description: 'Transforms narrative system prompts into high-density constraint tables and pipe-delimited directives.',
       applied: stagesApplied.some((s) => s.toLowerCase().includes('gemini') || s.toLowerCase().includes('rewriter')),
-      impact: stagesApplied.some((s) => s.toLowerCase().includes('gemini'))
+      impact: stagesApplied.some((s) => s.toLowerCase().includes('gemini') || s.toLowerCase().includes('rewriter'))
         ? 'Dense Declarative Format'
         : 'Optional / On-Demand',
       badge: 'Google Gemini',
@@ -50,29 +50,29 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
   ];
 
   return (
-    <div className="h-full bg-slate-950 border border-slate-800 rounded-xl p-5 overflow-y-auto space-y-5">
+    <div className="flex-1 min-h-0 bg-slate-950 p-5 overflow-y-auto space-y-5">
       <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
         <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-indigo-400" />
+          <Layers className="w-4 h-4 text-indigo-400" aria-hidden="true" />
           <span className="font-semibold text-xs text-slate-200 uppercase tracking-wider">
-            Pipeline Stage Performance Breakdown
+            Pipeline Stage Breakdown
           </span>
         </div>
-        <span className="text-[11px] text-slate-400 font-mono">
-          Engine Latency: {metrics?.processing_time_ms ? `${metrics.processing_time_ms.toFixed(1)}ms` : '< 1ms'}
+        <span className="text-[11px] text-slate-400 font-mono tabular-nums">
+          Latency: {metrics?.processing_time_ms ? `${metrics.processing_time_ms.toFixed(1)}ms` : '< 1ms'}
         </span>
       </div>
 
       {/* High-level summary cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 tabular-nums">
         <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 text-xs">
           <span className="text-slate-400 block mb-1">Line Count Delta</span>
           <div className="text-sm font-semibold text-slate-100 flex items-center gap-2">
             <span>{originalLines}</span>
-            <ArrowRight className="w-3 h-3 text-slate-500" />
+            <ArrowRight className="w-3 h-3 text-slate-500" aria-hidden="true" />
             <span className="text-emerald-400 font-bold">{compressedLines}</span>
             <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded ml-auto">
-              -{linesPruned} lines
+              -{linesPruned}
             </span>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
           <span className="text-slate-400 block mb-1">Character Compression</span>
           <div className="text-sm font-semibold text-slate-100 flex items-center gap-2">
             <span>{metrics?.original_chars ?? originalContent?.length ?? 0}</span>
-            <ArrowRight className="w-3 h-3 text-slate-500" />
+            <ArrowRight className="w-3 h-3 text-slate-500" aria-hidden="true" />
             <span className="text-indigo-400 font-bold">{metrics?.compressed_chars ?? 0}</span>
             <span className="text-[10px] text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded ml-auto">
               {formatPercent(metrics?.token_reduction_pct || 0)}
@@ -94,12 +94,12 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
           <div className="text-sm font-semibold flex items-center gap-2">
             {violations.length === 0 ? (
               <span className="text-emerald-400 flex items-center gap-1">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <ShieldCheck className="w-4 h-4 text-emerald-400" aria-hidden="true" />
                 Prefix Cacheable
               </span>
             ) : (
               <span className="text-amber-400 flex items-center gap-1">
-                <Zap className="w-4 h-4 text-amber-400" />
+                <Zap className="w-4 h-4 text-amber-400" aria-hidden="true" />
                 {violations.length} Cache Busters
               </span>
             )}
@@ -108,7 +108,7 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
       </div>
 
       {/* Stage Cards */}
-      <div className="space-y-3 pt-2">
+      <div className="space-y-3 pt-1">
         <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
           Individual Pipeline Stages
         </span>
@@ -124,21 +124,22 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
                 : 'bg-slate-950/50 border-slate-900 opacity-60'
             }`}
           >
-            <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
               <div className="flex items-center gap-2">
                 <CheckCircle2
-                  className={`w-4 h-4 ${
+                  className={`w-4 h-4 flex-shrink-0 ${
                     stage.isWarning
                       ? 'text-amber-400'
                       : stage.applied
                       ? 'text-emerald-400'
                       : 'text-slate-600'
                   }`}
+                  aria-hidden="true"
                 />
                 <span className="text-xs font-semibold text-slate-200">{stage.name}</span>
               </div>
               <span
-                className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                className={`text-[10px] font-mono px-2 py-0.5 rounded border flex-shrink-0 ${
                   stage.isWarning
                     ? 'bg-amber-500/10 text-amber-300 border-amber-500/20'
                     : 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20'
@@ -152,11 +153,7 @@ export default function StageBreakdownView({ compressedData, originalContent }) 
 
             <div className="mt-2.5 pt-2 border-t border-slate-800/60 pl-6 flex items-center justify-between text-[11px]">
               <span className="text-slate-500">Pipeline Output:</span>
-              <span
-                className={`font-semibold ${
-                  stage.isWarning ? 'text-amber-300' : 'text-slate-300'
-                }`}
-              >
+              <span className={`font-semibold ${stage.isWarning ? 'text-amber-300' : 'text-slate-300'}`}>
                 {stage.impact}
               </span>
             </div>

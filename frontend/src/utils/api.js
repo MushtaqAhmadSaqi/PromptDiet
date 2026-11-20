@@ -1,9 +1,19 @@
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
-export async function compressPayload({ content, contentType = 'auto', stages }) {
+async function parseError(resp, fallbackMessage) {
+  try {
+    const text = await resp.text();
+    return text ? `${fallbackMessage} (${resp.status}): ${text}` : `${fallbackMessage} (${resp.status})`;
+  } catch {
+    return `${fallbackMessage} (${resp.status})`;
+  }
+}
+
+export async function compressPayload({ content, contentType = 'auto', stages, signal }) {
   const resp = await fetch(`${API_BASE}/api/compress`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    signal,
     body: JSON.stringify({
       content,
       content_type: contentType,
@@ -15,16 +25,16 @@ export async function compressPayload({ content, contentType = 'auto', stages })
     }),
   });
   if (!resp.ok) {
-    const errorText = await resp.text();
-    throw new Error(`Compression failed (${resp.status}): ${errorText}`);
+    throw new Error(await parseError(resp, 'Compression failed'));
   }
   return resp.json();
 }
 
-export async function rewritePayload({ content, style = 'pipe_delimited', maxOutputTokens = 300 }) {
+export async function rewritePayload({ content, style = 'pipe_delimited', maxOutputTokens = 300, signal }) {
   const resp = await fetch(`${API_BASE}/api/rewrite`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    signal,
     body: JSON.stringify({
       content,
       style,
@@ -32,26 +42,25 @@ export async function rewritePayload({ content, style = 'pipe_delimited', maxOut
     }),
   });
   if (!resp.ok) {
-    const errorText = await resp.text();
-    throw new Error(`Rewrite failed (${resp.status}): ${errorText}`);
+    throw new Error(await parseError(resp, 'Rewrite failed'));
   }
   return resp.json();
 }
 
-export async function fetchFixtures() {
-  const resp = await fetch(`${API_BASE}/api/fixtures`);
+export async function fetchFixtures(signal) {
+  const resp = await fetch(`${API_BASE}/api/fixtures`, { signal });
   if (!resp.ok) throw new Error('Failed to load demo fixtures');
   return resp.json();
 }
 
-export async function fetchStats() {
-  const resp = await fetch(`${API_BASE}/api/stats`);
+export async function fetchStats(signal) {
+  const resp = await fetch(`${API_BASE}/api/stats`, { signal });
   if (!resp.ok) throw new Error('Failed to load cumulative stats');
   return resp.json();
 }
 
-export async function fetchTemplates() {
-  const resp = await fetch(`${API_BASE}/api/templates`);
+export async function fetchTemplates(signal) {
+  const resp = await fetch(`${API_BASE}/api/templates`, { signal });
   if (!resp.ok) throw new Error('Failed to load templates');
   return resp.json();
 }
@@ -67,10 +76,9 @@ export async function saveTemplate(template) {
 }
 
 export async function deleteTemplate(id) {
-  const resp = await fetch(`${API_BASE}/api/templates/${id}`, {
+  const resp = await fetch(`${API_BASE}/api/templates/${encodeURIComponent(id)}`, {
     method: 'DELETE',
   });
   if (!resp.ok) throw new Error('Failed to delete template');
   return resp.json();
 }
-
